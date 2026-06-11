@@ -1,6 +1,6 @@
 # 🚀 Asteroid Diameter Prediction & NEO Hazard Classification
 
-Final Thesis Project Showcase — Data Scientist: Amrita Jattan
+Final Thesis Project Showcase - Data Scientist: Amrita Jattan
 
 ## 📖 Project Overview
 This repository delivers an end-to-end machine learning workflow utilizing multi-source NASA and Kaggle space data to solve two distinct operational challenges:

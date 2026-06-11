@@ -1,135 +1,65 @@
-# 🚀 Asteroid Diameter Prediction & NEO Hazard Classification - aj
+# 🚀 Asteroid Diameter Prediction & NEO Hazard Classification
+
+Final Thesis Project Showcase — Data Scientist: Amrita Jattan
 
 ## 📖 Project Overview
-
-This contains a comprehensive workflow for predicting asteroid diameter and classifying hazardous Near-Earth Objects (NEOs) using machine learning models.
-
-This project provides a complete machine learning workflow for:
-
-- Predicting asteroid diameters from physical characteristics.
-- Classifying Near-Earth Objects (NEOs) as potentially hazardous or not.
-
-Several modeling strategies are explored to boost regression accuracy and classification reliability using real-world space data.
+This repository delivers an end-to-end machine learning workflow utilizing multi-source NASA and Kaggle space data to solve two distinct operational challenges:
+1. **Asteroid Diameter Prediction (Regression):** Engineering a robust pipeline to bypass massive missing data bottlenecks, utilizing a novel **Hybrid Two-Step Architecture** alongside Base and Simple comparative baselines.
+2. **Near-Earth Object (NEO) Hazard Classification (Classification):** Training supervised learning models to accurately isolate rare, potentially hazardous objects from highly skewed distributions.
 
 ---
 
-## 📂 Project Notebooks
+## 📊 Key Results & Performance Summary
 
-1. **Preprocessing and Cleaning** (`asteroid_and_neo_preprocessing_pipeline.ipynb`)  
-   Data cleaning, feature engineering, and preparation for modeling.
+### 1. Asteroid Diameter Prediction Baselines
+* **The Missing Data Bottleneck:** Over **85% of real-world asteroid records** are missing critical physical characteristics like `albedo` (reflectivity) and baseline `diameter` values.
+* **The Solution:** While the **Base Model** provides an ideal benchmark (trained on records where albedo is present), the **Hybrid Model** presents a deployment-ready architectural breakthrough. It uses a tuned two-step model pipeline where **Model A predicts the missing albedo value**, and **Model B utilizes that prediction to forecast the final diameter**.
 
-2. **Base Model** (`1_base_model.ipynb`)  
-   Regression model using both **albedo** and **diameter** features.
+#### Tuned Regression Model Performance Comparison (CatBoost Regression):
+| Model Pipeline Strategy | Mean Squared Error (MSE) | Coefficient of Determination ($R^2$) | Operational Context |
+| :--- | :---: | :---: | :--- |
+| **Base Model (Tuned)** | **0.5115** | **0.9815** | *Ideal Benchmark (Albedo completely known)* |
+| **Simple Model (Tuned)** | **2.9420** | **0.8968** | *Constrained Baseline (Albedo completely excluded)* |
+| **Hybrid Model (Tuned)** | **1.8389** | **0.9355** | 🏆 **Production-Ready Strategy (Predicts missing albedo first)** |
 
-3. **Simple Model** (`2_simple_model.ipynb`)  
-   Regression model using only **diameter** (without albedo).
+*Quantile Regression analysis verified prediction interval stability ($R^2 = 0.9325$ at $\alpha = 0.5$ median).*
 
-4. **Hybrid Model** (`3_hybrid_model.ipynb`)  
-   Two-step model:  
-   - First, predict albedo  
-   - Then, use predicted albedo to predict diameter.
+### 2. Model Explainability & Feature Importance (SHAP Analysis)
+* **Diameter Prediction Drivers:** SHAP and gradient-boosting internal feature importances revealed that Absolute Magnitude (`H`) is the single strongest predictor of diameter across the models (contributing **63.59%–64.07%** to model decisions), followed heavily by `albedo` (predicted or actual) at **22.42%–30.78%**. 
+* **Albedo Predictors:** When isolating features to handle missing values, orbital inclination (`i`), semi-major axis (`a`), and mean motion (`n`) were identified as the leading drivers.
 
-5. **NEO Classification Model** (`4_neo_classification.ipynb`)  
-   Classification model to identify hazardous Near-Earth Objects.
-
----
-
-## 📊 Datasets Used
-
-This project uses three main datasets:
-
-- **Asteroid Dataset 1**  
-  Source: [Prediction of Asteroid Diameter by basu369victor](https://www.kaggle.com/datasets/basu369victor/prediction-of-asteroid-diameter)  
-  Loaded as: `asteroid_1 = pd.read_csv('data/asteroid_1.csv')`
-
-- **Asteroid Dataset 2**  
-  Source: [Asteroid Dataset by sakhawat18](https://www.kaggle.com/datasets/sakhawat18/asteroid-dataset/data)  
-  Loaded as: `asteroid_2 = pd.read_csv('data/asteroid_2.csv')`
-
-- **NASA Near-Earth Objects (NEO) Dataset**  
-  Source: [NASA Nearest Earth Objects by sameepvani](https://www.kaggle.com/datasets/sameepvani/nasa-nearest-earth-objects?select=neo.csv)  
-  Loaded as: `df_neo = pd.read_csv('data/neo.csv')`
+### 3. NEO Hazard Classification
+* **Handling Imbalanced Classes:** The hazardous class constitutes an extreme minority (**only 7.6% of total observations**; 2,071 hazardous vs. 25,027 non-hazardous objects).
+* **Strategy:** Implemented **SMOTE (Synthetic Minority Over-sampling Technique)** coupled with a tuned **CatBoost Classifier** to maximize minority-class recall without eroding overall prediction precision.
 
 ---
 
-## 🧰 Requirements
-
-To run this project, install the required Python packages listed in `requirements.txt`:
+## 🛠️ Tools & Libraries Used
+* **Data Engineering & Optimization:** `pandas`, `NumPy`, `autoML`, `RandomizedSearchCV`
+* **Machine Learning Frameworks:** `scikit-learn`, `XGBoost`, `LightGBM`, `CatBoost`
+* **Imbalance & Interpretability:** `imblearn` (SMOTE), `SHAP`
+* **Visualization Engine:** `matplotlib`, `seaborn`
 
 ---
 
-## 🚀 How to Use
-- Begin with data preprocessing in asteroid_and_neo_preprocessing_pipeline.ipynb to clean and prepare your data.
-- Explore the base regression model in 1_base_model.ipynb that uses albedo and diameter.
-- Compare results with the simple model in 2_simple_model.ipynb which excludes albedo.
-- Run the hybrid model in 3_hybrid_model.ipynb, which predicts albedo first then diameter.
-- Use 4_neo_classification.ipynb to train and evaluate a classification model that flags hazardous NEOs.
+## ⚙️ Repository Pipeline & Notebook Structure
 
---
+To execute the modeling pipeline, run the notebooks sequentially:
 
-## ⚙️ Tools & Libraries
-- pandas, numpy — Data manipulation
-- scikit-learn — Machine learning models and evaluation
-- xgboost, lightgbm, catboost — Gradient boosting models for regression and classification
-- imblearn — Handling imbalanced datasets (e.g., SMOTE)
-- matplotlib, seaborn — Visualization
-- shap — Model explainability and interpretation
-- jupyter — Notebook environment
+1. **`asteroid_and_neo_preprocessing_pipeline.ipynb`**
+   Handles initial multi-source data merging, drop-criteria for features missing extreme volume, categorical transformation, and feature engineering.
+2. **`1_base_model.ipynb`**
+   Establishes optimal upper-bound performance metrics utilizing true albedo features.
+3. **`2_simple_model.ipynb`**
+   Measures structural predictive degradation when dropping missing physical constants entirely.
+4. **`3_hybrid_model.ipynb`**
+   Constructs the full multi-stage regression framework (Step 1: Predict Albedo via CatBoost ➡️ Step 2: Feed predicted features into Diameter Regressor).
+5. **`4_neo_classification.ipynb`**
+   Deploys ensemble classifiers optimized via SMOTE to map hazard vulnerabilities using NASA datasets.
 
---
+---
 
-## 📚 References & Resources
-- NASA Near-Earth Object Web Service (NEOWS)
-- Kaggle Asteroid Diameter Dataset (basu369victor)
-- Kaggle Asteroid Dataset (sakhawat18)
-- Kaggle NASA NEO Dataset (sameepvani)
-- Scikit-learn Documentation
-- XGBoost Documentation
-- SHAP Documentation
-
-
-## Steps
-### Data loading
-These datasets are downloaded from Kaggle.
-
-### Data Cleaning
-- Checked for duplicate rows
-- Dropped features with excessive missing data
-- Dropped irrelevent features
-- Converted categorical features
-- Removed prefix from features
-- One-Hot Encode
-
-### Filled Missing values
-- with "0"
-- with Median
-- with Mode
-- by predicting using a regression model
-
-### Feature Engineering
-New features were created for easy interpretation.
-Few existing features were categorized.
-
-### Data Visualization
-Various visuals are created:
-- Bar Plot
-- Count Plot
-- Boxplot
-- Histogram Plot
-- Correlation Matrix
-- ROC Curve
-- Precision-Recall Curve
-- Calibration Plot
-
-### Machine Learning
-Two machine learning model were created, fitted and evaluated:
-- Linear regression
-- Random Forest Regression
-- XGBoost Regression
-- LightGBM
-- Catboost Regression
-- Quantile refression
-- Random Forest Classifier
-- XGBClassifier
-- LGBMClassifier
-- CatBoostClassifier
+## 📚 Data Dimensions & References
+* **Asteroid Dataset 1:** 839,000+ entries & 27 features (basu369victor/Kaggle)
+* **Asteroid Dataset 2:** 958,000+ entries & 45 features (sakhawat18/Kaggle)
+* **NASA Near-Earth Objects Dataset:** 90,800+ entries & 10 features (sameepvani/Kaggle)

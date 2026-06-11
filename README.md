@@ -34,7 +34,11 @@ Asteroid-Diameter-and-NEO-Classification/
 ├── data/
 │   ├── asteroid_1.csv
 │   ├── asteroid_2.csv
-│   └── neo.csv
+│   ├── asteroid_cleaned.csv
+│   ├── asteroid_complete.csv
+│   ├── neo.csv
+│   ├── neo_cleaned.csv
+│   └── neo_complete.csv
 │
 ├── notebooks/
 │   ├── asteroid_and_neo_preprocessing_pipeline.ipynb
@@ -105,7 +109,7 @@ Dropping albedo creates an extreme information gap, leading to a visible drop in
   * $\alpha = 0.5 \rightarrow R^2: 0.8904$  
   * $\alpha = 0.9 \rightarrow R^2: 0.7737$
 
-#### C. Production Hybrid Architecture (Two-Step Pipeline)
+#### C. Hybrid Two-Stage Pipeline (Two-Step Pipeline)
 Over **85% of real-world asteroid records** lack reflectivity data. While the Simple model suffers heavily from this data loss, this **Hybrid Pipeline** successfully bridges the gap by predicting the missing value first.
 
 * **Step 1: Albedo Prediction Performance (Model A)** * **🏆 Tuned CatBoost** $\rightarrow$ **MSE: 0.0032** | **$R^2$: 0.5846** * *(Baseline Benchmarks: Random Forest $R^2$: 0.5757 | XGBoost $R^2$: 0.5598 | Linear Regression $R^2$: 0.3592)*
@@ -127,17 +131,35 @@ Over **85% of real-world asteroid records** lack reflectivity data. While the Si
 
 ---
 
-## 🎯 Key Takeaways
+### 2. Near-Earth Object (NEO) Hazard Classification Results
 
-- Missing albedo values were the primary limitation affecting diameter prediction.
-- Removing albedo reduced CatBoost performance from R² = 0.9815 to R² = 0.8968.
-- The Hybrid Two-Stage Pipeline recovered much of the lost predictive power, achieving R² = 0.9355.
-- SHAP analysis confirmed that Absolute Magnitude and Albedo were the most influential predictors.
-- Ensemble boosting methods consistently outperformed traditional linear models.
+Because hazardous near-earth items represent an extreme minority within the active aerospace dataset (**comprising only 7.6% of the overall data**; 2,071 hazardous objects vs. 25,027 non-hazardous objects), the classification model was tested in two environments to observe the impact of data balancing techniques:
+
+#### A. Baseline Performance (Without SMOTE)
+When training on the raw, imbalanced dataset, the model yielded a high baseline accuracy but severely struggled to isolate the minority hazardous class, resulting in an inadequate recall rate.
+
+| Metric | Score |
+|---|---|
+| **Accuracy** | 94.49% |
+| **Precision** | 68.79% |
+| **Recall** | 50.14% |
+| **F1 Score** | 58.00% |
+| **ROC-AUC** | 91.95% |
+
+#### B. Optimized Performance (With SMOTE - Final Production Model)
+By injecting **SMOTE (Synthetic Minority Over-sampling Technique)** to synthetically rebuild the minority distribution, the model expanded its boundary lines. This minor adjustment triggered a massive **+39.75% increase in Recall** and boosted the **F1 score by +16.91%**, delivering a highly resilient planetary defense screening architecture.
+
+| Metric | Score |
+|---|---|
+| **Accuracy** | **94.75%** *(+0.26%)* |
+| **Precision** | **64.21%** *(-4.58%)* |
+| **Recall** | **89.89%** *(+39.75% 🚀)* |
+| **F1 Score** | **74.91%** *(+16.91% 🚀)* |
+| **ROC-AUC** | **98.24%** *(+6.29%)* |
 
 ---
 
-### 2. Model Explainability & Feature Importances (SHAP Insights)
+### 3. Model Explainability & Feature Importances (SHAP Insights)
 
 Global feature analysis using SHAP and gradient-boosting internal metrics revealed how the feature reliance shifts depending on the modeling pipeline context:
 
@@ -148,10 +170,20 @@ Global feature analysis using SHAP and gradient-boosting internal metrics reveal
 
 ---
 
-### 3. Near-Earth Object (NEO) Hazard Classification
+### 4. Near-Earth Object (NEO) Hazard Classification
 
 * **The Class Imbalance Problem:** Hazardous near-earth items represent an extreme minority within the active aerospace data grid, comprising **only 7.6% of the overall dataset** (2,071 hazardous objects vs. 25,027 non-hazardous objects).
 * **Mitigation Strategy:** Implemented **SMOTE (Synthetic Minority Over-sampling Technique)** alongside an automated hyperparameter-tuned **CatBoost Classifier** to expand the minority class boundary, heavily optimizing minority-class Recall without causing an unacceptable drop in overall Precision metrics.
+
+---
+
+## 🎯 Key Takeaways
+
+- Missing albedo values were the primary limitation affecting diameter prediction.
+- Removing albedo reduced CatBoost performance from R² = 0.9815 to R² = 0.8968.
+- The Hybrid Two-Stage Pipeline recovered much of the lost predictive power, achieving R² = 0.9355.
+- SHAP analysis confirmed that Absolute Magnitude and Albedo were the most influential predictors.
+- Ensemble boosting methods consistently outperformed traditional linear models.
 
 ---
 

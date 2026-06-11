@@ -105,7 +105,8 @@ Dropping albedo creates an extreme information gap, leading to a visible drop in
 | CatBoost (Untuned) | 3.0271 | 0.8938 |
 | **🏆 CatBoost (Tuned via RandomizedSearchCV)** | **2.9420** | **0.8968** |
 
-* **Quantile Regression Stability (Simple CatBoost):** * $\alpha = 0.1 \rightarrow R^2: 0.7793$  
+* **Quantile Regression Stability (Simple CatBoost):**
+  * $\alpha = 0.1 \rightarrow R^2: 0.7793$  
   * $\alpha = 0.5 \rightarrow R^2: 0.8904$  
   * $\alpha = 0.9 \rightarrow R^2: 0.7737$
 

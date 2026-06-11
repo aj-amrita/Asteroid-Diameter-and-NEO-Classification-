@@ -7,8 +7,41 @@ Final Thesis Project Showcase — Data Scientist: Amrita Jattan
 
 ## 📖 Project Overview
 This repository delivers an end-to-end machine learning workflow utilizing multi-source NASA and Kaggle space data to solve two distinct operational aerospace challenges:
-1. **Asteroid Diameter Prediction (Regression):** Engineering a robust pipeline to bypass massive missing data bottlenecks. This features a comparative study across a **Base Model**, a **Simple Model**, and a novel production-ready **Hybrid Two-Step Architecture**.
+1. **Asteroid Diameter Prediction (Regression):** Engineering a robust pipeline to bypass massive missing data bottlenecks. This features a comparative study across a **Base Model**, a **Simple Model**, and a **Hybrid Two-Stage Machine Learning Pipeline**.
 2. **Near-Earth Object (NEO) Hazard Classification (Classification):** Training supervised ensemble learning models to accurately isolate rare, potentially hazardous objects from highly skewed celestial distributions.
+
+---
+
+## 🌟 Key Highlights
+
+✅ Built an end-to-end machine learning pipeline using over 1.8 million asteroid records
+
+✅ Developed a hybrid two-stage modeling approach to address 85% missing albedo values
+
+✅ Achieved R² = 0.9815 with a tuned CatBoost Regressor
+
+✅ Applied SMOTE and ensemble learning techniques for hazardous NEO classification
+
+✅ Used SHAP to explain model decisions and identify key predictive features
+
+---
+
+## 📂 Repository Structure
+
+├── data/
+│   ├── asteroid_1.csv
+│   ├── asteroid_2.csv
+│   └── neo.csv
+│
+├── notebooks/
+│   ├── asteroid_and_neo_preprocessing_pipeline.ipynb
+│   ├── 1_base_model.ipynb
+│   ├── 2_simple_model.ipynb
+│   ├── 3_hybrid_model.ipynb
+│   └── 4_neo_classification.ipynb
+│
+├── requirements.txt
+└── README.md
 
 ---
 
@@ -87,6 +120,16 @@ Over **85% of real-world asteroid records** lack reflectivity data. While the Si
 * **Quantile Regression Stability (Hybrid Architecture):** * $\alpha = 0.1 \rightarrow R^2: 0.8515$  
   * $\alpha = 0.5 \rightarrow R^2: 0.9325$  
   * $\alpha = 0.9 \rightarrow R^2: 0.8416$
+
+---
+
+## 🎯 Key Takeaways
+
+- Missing albedo values were the primary limitation affecting diameter prediction.
+- Removing albedo reduced CatBoost performance from R² = 0.9815 to R² = 0.8968.
+- The Hybrid Two-Stage Pipeline recovered much of the lost predictive power, achieving R² = 0.9355.
+- SHAP analysis confirmed that Absolute Magnitude and Albedo were the most influential predictors.
+- Ensemble boosting methods consistently outperformed traditional linear models.
 
 ---
 

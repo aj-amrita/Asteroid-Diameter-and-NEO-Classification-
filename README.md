@@ -28,6 +28,9 @@ This repository delivers an end-to-end machine learning workflow utilizing multi
 
 ## 📂 Repository Structure
 
+```text
+Asteroid-Diameter-and-NEO-Classification/
+│
 ├── data/
 │   ├── asteroid_1.csv
 │   ├── asteroid_2.csv
@@ -42,6 +45,7 @@ This repository delivers an end-to-end machine learning workflow utilizing multi
 │
 ├── requirements.txt
 └── README.md
+```
 
 ---
 

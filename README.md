@@ -89,7 +89,8 @@ This benchmark outlines the upper limits of predictability when physical constan
 | CatBoost (Untuned) | 0.5228 | 0.9811 |
 | **🏆 CatBoost (Tuned via RandomizedSearchCV)** | **0.5115** | **0.9815** |
 
-* **Quantile Regression Stability (Tuned CatBoost):** * $\alpha = 0.1 \rightarrow R^2: 0.9576$  
+* **Quantile Regression Stability (Tuned CatBoost):**
+  * $\alpha = 0.1 \rightarrow R^2: 0.9576$  
   * $\alpha = 0.5 \rightarrow R^2: 0.9806$  
   * $\alpha = 0.9 \rightarrow R^2: 0.9567$
 
@@ -126,8 +127,7 @@ Over **85% of real-world asteroid records** lack reflectivity data. While the Si
 | CatBoost (Untuned) | 1.8798 | 0.9340 |
 | **🏆 CatBoost (Tuned via RandomizedSearchCV)** | **1.8389** | **0.9355** |
 
-**Quantile Regression Stability (Hybrid Architecture):**
-  
+* **Quantile Regression Stability (Hybrid Architecture):**
   * $\alpha = 0.1 \rightarrow R^2: 0.8515$  
   * $\alpha = 0.5 \rightarrow R^2: 0.9325$  
   * $\alpha = 0.9 \rightarrow R^2: 0.8416$

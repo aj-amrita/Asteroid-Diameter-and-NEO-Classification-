@@ -1,6 +1,6 @@
 # 🚀 Asteroid Diameter Prediction & NEO Hazard Classification
 
-Final Thesis Project Showcase — Data Scientist: Amrita Jattan  
+Final Thesis Project Showcase - Data Scientist: Amrita Jattan  
 *Leveraging Machine Learning to Estimate Asteroid Dimensions and Detect Planetary Threats.*
 
 ---

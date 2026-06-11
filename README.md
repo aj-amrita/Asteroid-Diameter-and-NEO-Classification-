@@ -126,7 +126,7 @@ Over **85% of real-world asteroid records** lack reflectivity data. While the Si
 | CatBoost (Untuned) | 1.8798 | 0.9340 |
 | **🏆 CatBoost (Tuned via RandomizedSearchCV)** | **1.8389** | **0.9355** |
 
-* **Quantile Regression Stability (Hybrid Architecture):**
+**Quantile Regression Stability (Hybrid Architecture):**
   
   * $\alpha = 0.1 \rightarrow R^2: 0.8515$  
   * $\alpha = 0.5 \rightarrow R^2: 0.9325$  

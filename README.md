@@ -146,7 +146,7 @@ When training on the raw, imbalanced dataset, the model yielded a high baseline 
 | **F1 Score** | 58.00% |
 | **ROC-AUC** | 91.95% |
 
-#### B. Optimized Performance (With SMOTE - Final Production Model)
+#### B. Optimized Performance (With SMOTE)
 By injecting **SMOTE (Synthetic Minority Over-sampling Technique)** to synthetically rebuild the minority distribution, the model expanded its boundary lines. This minor adjustment triggered a massive **+39.75% increase in Recall** and boosted the **F1 score by +16.91%**, delivering a highly resilient planetary defense screening architecture.
 
 | Metric | Score |
@@ -170,13 +170,6 @@ Global feature analysis using SHAP and gradient-boosting internal metrics reveal
 
 ---
 
-### 4. Near-Earth Object (NEO) Hazard Classification
-
-* **The Class Imbalance Problem:** Hazardous near-earth items represent an extreme minority within the active aerospace data grid, comprising **only 7.6% of the overall dataset** (2,071 hazardous objects vs. 25,027 non-hazardous objects).
-* **Mitigation Strategy:** Implemented **SMOTE (Synthetic Minority Over-sampling Technique)** alongside an automated hyperparameter-tuned **CatBoost Classifier** to expand the minority class boundary, heavily optimizing minority-class Recall without causing an unacceptable drop in overall Precision metrics.
-
----
-
 ## 🎯 Key Takeaways
 
 - Missing albedo values were the primary limitation affecting diameter prediction.
@@ -184,6 +177,7 @@ Global feature analysis using SHAP and gradient-boosting internal metrics reveal
 - The Hybrid Two-Stage Pipeline recovered much of the lost predictive power, achieving R² = 0.9355.
 - SHAP analysis confirmed that Absolute Magnitude and Albedo were the most influential predictors.
 - Ensemble boosting methods consistently outperformed traditional linear models.
+- Applying SMOTE increased hazardous-object recall from 50.14% to 89.89%, substantially improving detection of rare but critical cases.
 
 ---
 

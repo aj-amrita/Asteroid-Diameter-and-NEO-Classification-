@@ -1,65 +1,114 @@
 # 🚀 Asteroid Diameter Prediction & NEO Hazard Classification
 
-Final Thesis Project Showcase - Data Scientist: Amrita Jattan
-
-## 📖 Project Overview
-This repository delivers an end-to-end machine learning workflow utilizing multi-source NASA and Kaggle space data to solve two distinct operational challenges:
-1. **Asteroid Diameter Prediction (Regression):** Engineering a robust pipeline to bypass massive missing data bottlenecks, utilizing a novel **Hybrid Two-Step Architecture** alongside Base and Simple comparative baselines.
-2. **Near-Earth Object (NEO) Hazard Classification (Classification):** Training supervised learning models to accurately isolate rare, potentially hazardous objects from highly skewed distributions.
+Final Thesis Project Showcase — Data Scientist: Amrita Jattan  
+*Leveraging Machine Learning to Estimate Asteroid Dimensions and Detect Planetary Threats.*
 
 ---
 
-## 📊 Key Results & Performance Summary
-
-### 1. Asteroid Diameter Prediction Baselines
-* **The Missing Data Bottleneck:** Over **85% of real-world asteroid records** are missing critical physical characteristics like `albedo` (reflectivity) and baseline `diameter` values.
-* **The Solution:** While the **Base Model** provides an ideal benchmark (trained on records where albedo is present), the **Hybrid Model** presents a deployment-ready architectural breakthrough. It uses a tuned two-step model pipeline where **Model A predicts the missing albedo value**, and **Model B utilizes that prediction to forecast the final diameter**.
-
-#### Tuned Regression Model Performance Comparison (CatBoost Regression):
-| Model Pipeline Strategy | Mean Squared Error (MSE) | Coefficient of Determination ($R^2$) | Operational Context |
-| :--- | :---: | :---: | :--- |
-| **Base Model (Tuned)** | **0.5115** | **0.9815** | *Ideal Benchmark (Albedo completely known)* |
-| **Simple Model (Tuned)** | **2.9420** | **0.8968** | *Constrained Baseline (Albedo completely excluded)* |
-| **Hybrid Model (Tuned)** | **1.8389** | **0.9355** | 🏆 **Production-Ready Strategy (Predicts missing albedo first)** |
-
-*Quantile Regression analysis verified prediction interval stability ($R^2 = 0.9325$ at $\alpha = 0.5$ median).*
-
-### 2. Model Explainability & Feature Importance (SHAP Analysis)
-* **Diameter Prediction Drivers:** SHAP and gradient-boosting internal feature importances revealed that Absolute Magnitude (`H`) is the single strongest predictor of diameter across the models (contributing **63.59%–64.07%** to model decisions), followed heavily by `albedo` (predicted or actual) at **22.42%–30.78%**. 
-* **Albedo Predictors:** When isolating features to handle missing values, orbital inclination (`i`), semi-major axis (`a`), and mean motion (`n`) were identified as the leading drivers.
-
-### 3. NEO Hazard Classification
-* **Handling Imbalanced Classes:** The hazardous class constitutes an extreme minority (**only 7.6% of total observations**; 2,071 hazardous vs. 25,027 non-hazardous objects).
-* **Strategy:** Implemented **SMOTE (Synthetic Minority Over-sampling Technique)** coupled with a tuned **CatBoost Classifier** to maximize minority-class recall without eroding overall prediction precision.
+## 📖 Project Overview
+This repository delivers an end-to-end machine learning workflow utilizing multi-source NASA and Kaggle space data to solve two distinct operational aerospace challenges:
+1. **Asteroid Diameter Prediction (Regression):** Engineering a robust pipeline to bypass massive missing data bottlenecks. This features a comparative study across a **Base Model**, a **Simple Model**, and a novel production-ready **Hybrid Two-Step Architecture**.
+2. **Near-Earth Object (NEO) Hazard Classification (Classification):** Training supervised ensemble learning models to accurately isolate rare, potentially hazardous objects from highly skewed celestial distributions.
 
 ---
 
 ## 🛠️ Tools & Libraries Used
 * **Data Engineering & Optimization:** `pandas`, `NumPy`, `autoML`, `RandomizedSearchCV`
 * **Machine Learning Frameworks:** `scikit-learn`, `XGBoost`, `LightGBM`, `CatBoost`
-* **Imbalance & Interpretability:** `imblearn` (SMOTE), `SHAP`
+* **Imbalance & Interpretability:** `imblearn` (SMOTE), `SHAP` (Shapley Additive exPlanations)
 * **Visualization Engine:** `matplotlib`, `seaborn`
 
 ---
 
 ## ⚙️ Repository Pipeline & Notebook Structure
 
-To execute the modeling pipeline, run the notebooks sequentially:
+To execute the modeling pipeline, run the Jupyter notebooks sequentially:
 
-1. **`asteroid_and_neo_preprocessing_pipeline.ipynb`**
-   Handles initial multi-source data merging, drop-criteria for features missing extreme volume, categorical transformation, and feature engineering.
-2. **`1_base_model.ipynb`**
-   Establishes optimal upper-bound performance metrics utilizing true albedo features.
-3. **`2_simple_model.ipynb`**
-   Measures structural predictive degradation when dropping missing physical constants entirely.
-4. **`3_hybrid_model.ipynb`**
-   Constructs the full multi-stage regression framework (Step 1: Predict Albedo via CatBoost ➡️ Step 2: Feed predicted features into Diameter Regressor).
-5. **`4_neo_classification.ipynb`**
-   Deploys ensemble classifiers optimized via SMOTE to map hazard vulnerabilities using NASA datasets.
+1. **`asteroid_and_neo_preprocessing_pipeline.ipynb`** Handles multi-source data merging, drop-criteria for features missing extreme volume, categorical transformation, and initial feature engineering.
+2. **`1_base_model.ipynb`** Establishes optimal upper-bound performance metrics utilizing true `albedo` features.
+3. **`2_simple_model.ipynb`** Measures structural predictive degradation when dropping missing physical constants entirely.
+4. **`3_hybrid_model.ipynb`** Constructs the full multi-stage regression framework (**Step 1:** Predict Albedo via CatBoost ➡️ **Step 2:** Feed predicted features into a secondary Diameter Regressor).
+5. **`4_neo_classification.ipynb`** Deploys ensemble classifiers optimized via SMOTE to map hazard vulnerabilities using NASA datasets.
 
 ---
 
-## 📚 Data Dimensions & References
-* **Asteroid Dataset 1:** 839,000+ entries & 27 features (basu369victor/Kaggle)
-* **Asteroid Dataset 2:** 958,000+ entries & 45 features (sakhawat18/Kaggle)
-* **NASA Near-Earth Objects Dataset:** 90,800+ entries & 10 features (sameepvani/Kaggle)
+## 📊 Comprehensive Results & Performance Analysis
+
+### 1. Asteroid Diameter Prediction (Regression Frameworks)
+
+#### A. Base Model Comparison (Albedo Completely Known)
+This benchmark outlines the upper limits of predictability when physical constants are fully available.
+
+| Algorithm | Mean Squared Error (MSE) | Coefficient of Determination ($R^2$) |
+| :--- | :---: | :---: |
+| Linear Regression | 2.6441 | 0.9045 |
+| Random Forest | 0.5663 | 0.9795 |
+| XGBoost | 0.8928 | 0.9678 |
+| LightGBM | 0.5795 | 0.9791 |
+| CatBoost (Untuned) | 0.5228 | 0.9811 |
+| **🏆 CatBoost (Tuned via RandomizedSearchCV)** | **0.5115** | **0.9815** |
+
+* **Quantile Regression Stability (Tuned CatBoost):** * $\alpha = 0.1 \rightarrow R^2: 0.9576$  
+  * $\alpha = 0.5 \rightarrow R^2: 0.9806$  
+  * $\alpha = 0.9 \rightarrow R^2: 0.9567$
+
+#### B. Simple Model Comparison (Albedo Excluded)
+Dropping albedo creates an extreme information gap, leading to a visible drop in evaluation metrics across all models.
+
+| Algorithm | Mean Squared Error (MSE) | Coefficient of Determination ($R^2$) |
+| :--- | :---: | :---: |
+| Linear Regression | 8.5767 | 0.6991 |
+| Random Forest | 3.1878 | 0.8882 |
+| XGBoost | 3.3062 | 0.8840 |
+| LightGBM | 3.1132 | 0.8908 |
+| CatBoost (Untuned) | 3.0271 | 0.8938 |
+| **🏆 CatBoost (Tuned via RandomizedSearchCV)** | **2.9420** | **0.8968** |
+
+* **Quantile Regression Stability (Simple CatBoost):** * $\alpha = 0.1 \rightarrow R^2: 0.7793$  
+  * $\alpha = 0.5 \rightarrow R^2: 0.8904$  
+  * $\alpha = 0.9 \rightarrow R^2: 0.7737$
+
+#### C. Production Hybrid Architecture (Two-Step Pipeline)
+Over **85% of real-world asteroid records** lack reflectivity data. While the Simple model suffers heavily from this data loss, this **Hybrid Pipeline** successfully bridges the gap by predicting the missing value first.
+
+* **Step 1: Albedo Prediction Performance (Model A)** * **🏆 Tuned CatBoost** $\rightarrow$ **MSE: 0.0032** | **$R^2$: 0.5846** * *(Baseline Benchmarks: Random Forest $R^2$: 0.5757 | XGBoost $R^2$: 0.5598 | Linear Regression $R^2$: 0.3592)*
+
+* **Step 2: Ultimate Diameter Prediction Performance (Model B)** Using the generated albedo feature from Step 1 alongside standard orbital metrics to calculate ultimate diameter size.
+
+| Algorithm | Mean Squared Error (MSE) | Coefficient of Determination ($R^2$) |
+| :--- | :---: | :---: |
+| Linear Regression | 2.9188 | 0.8976 |
+| Random Forest | 1.9787 | 0.9306 |
+| XGBoost | 2.3291 | 0.9183 |
+| LightGBM | 1.9338 | 0.9322 |
+| CatBoost (Untuned) | 1.8798 | 0.9340 |
+| **🏆 CatBoost (Tuned via RandomizedSearchCV)** | **1.8389** | **0.9355** |
+
+* **Quantile Regression Stability (Hybrid Architecture):** * $\alpha = 0.1 \rightarrow R^2: 0.8515$  
+  * $\alpha = 0.5 \rightarrow R^2: 0.9325$  
+  * $\alpha = 0.9 \rightarrow R^2: 0.8416$
+
+---
+
+### 2. Model Explainability & Feature Importances (SHAP Insights)
+
+Global feature analysis using SHAP and gradient-boosting internal metrics revealed how the feature reliance shifts depending on the modeling pipeline context:
+
+* **Base Model (Albedo Known):** Absolute Magnitude (`H`) heavily dominates the model's decision-making process at **64.07%**, followed closely by true `albedo` at **30.78%**.
+* **Simple Model (Albedo Excluded):** Deprived of reflectivity variables, the predictive workload is distributed across orbital features. Absolute Magnitude (`H`) drops to **41.27%**, forcing Semi-major axis (`a`: **11.51%**), Mean Motion (`n`: **10.85%**), and Inclination (`i`: **7.07%**) to take on significantly more statistical weight.
+* **Hybrid Model Step 1 (Reconstructing Albedo):** When rebuilding the missing reflectivity matrix from scratch, orbital properties become highly predictive. The top drivers include Inclination (`i`: **11.73%**), Semi-major axis (`a`: **11.44%**), Mean Motion (`n`: **11.35%**), and Absolute Magnitude (`H`: **8.91%**).
+* **Hybrid Model Step 2 (Final Diameter Calculation):** Relying on the predicted albedo attribute, the final decision vector successfully returns to its optimal geometric focus: Absolute Magnitude (`H`) commands **63.59%** of the weight, and the generated `albedo_predicted` feature accounts for **22.42%**.
+
+---
+
+### 3. Near-Earth Object (NEO) Hazard Classification
+
+* **The Class Imbalance Problem:** Hazardous near-earth items represent an extreme minority within the active aerospace data grid, comprising **only 7.6% of the overall dataset** (2,071 hazardous objects vs. 25,027 non-hazardous objects).
+* **Mitigation Strategy:** Implemented **SMOTE (Synthetic Minority Over-sampling Technique)** alongside an automated hyperparameter-tuned **CatBoost Classifier** to expand the minority class boundary, heavily optimizing minority-class Recall without causing an unacceptable drop in overall Precision metrics.
+
+---
+
+## 📚 Dataset Dimensions & Data Sources
+* **Asteroid Dataset 1:** 839,000+ entries & 27 features | [Prediction of Asteroid Diameter (basu369victor)](https://www.kaggle.com/datasets/basu369victor/prediction-of-asteroid-diameter)
+* **Asteroid Dataset 2:** 958,000+ entries & 45 features | [Asteroid Dataset (sakhawat18)](https://www.kaggle.com/datasets/sakhawat18/asteroid-dataset/data)
+* **NASA Near-Earth Objects Dataset:** 90,800+ entries & 10 features | [NASA Nearest Earth Objects (sameepvani)](https://www.kaggle.com/datasets/sameepvani/nasa-nearest-earth-objects?select=neo.csv)
